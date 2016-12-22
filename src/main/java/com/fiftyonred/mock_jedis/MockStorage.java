@@ -202,7 +202,7 @@ public class MockStorage {
 		return true;
 	}
 
-	public synchronized void psetex(final DataContainer key, final int milliseconds, final DataContainer value) {
+	public synchronized void psetex(final DataContainer key, final long milliseconds, final DataContainer value) {
 		set(key, value);
 		pexpireAt(key, System.currentTimeMillis() + milliseconds);
 	}

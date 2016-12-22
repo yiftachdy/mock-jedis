@@ -288,12 +288,26 @@ public class MockPipeline extends Pipeline {
 
 	@Override
 	public Response<String> setex(final String key, final int seconds, final String value) {
-		return psetex(key, seconds * 1000, value);
+		return psetex(key, (long) seconds * 1000, value);
 	}
 
 	@Override
 	public Response<String> setex(final byte[] key, final int seconds, final byte[] value) {
-		return psetex(key, seconds * 1000, value);
+		return psetex(key, (long) seconds * 1000, value);
+	}
+
+	public Response<String> psetex(final String key, final long milliseconds, final String value) {
+		mockStorage.psetex(DataContainer.from(key), milliseconds, DataContainer.from(value));
+		final Response<String> response = new Response<String>(BuilderFactory.STRING);
+		response.set(OK_RESPONSE);
+		return response;
+	}
+
+	public Response<String> psetex(final byte[] key, final long milliseconds, final byte[] value) {
+		mockStorage.psetex(DataContainer.from(key), milliseconds, DataContainer.from(value));
+		final Response<String> response = new Response<String>(BuilderFactory.STRING);
+		response.set(OK_RESPONSE);
+		return response;
 	}
 
 	@Override
